@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, Dimensions } from 'react-native';
-import MovieItem from './parts/MovieItem';
+import MovieItem from '../MovieItem';
 import { getMovies } from '../../services/api';
 
 const {width, height} = Dimensions.get('window')
