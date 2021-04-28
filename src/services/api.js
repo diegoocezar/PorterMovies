@@ -21,38 +21,39 @@ const genres = {
   10770: 'TV Movie',
 };
 
-const getImagePath = (path) =>
-  `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
-const getBackdropPath = (path) =>
-  `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
+export const getMovies = async () => {
 
-export const getMovies = async (page = 1) => {
-
-  const API_URL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${page}`;
+  const API_URL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`;
   const fetchData = await fetch(API_URL).then((resp) => resp.json());
-  const movies = fetchData.results.map(
-    ({
-      id,
-      original_title,
-      poster_path,
-      backdrop_path,
-      vote_average,
-      overview,
-      release_date,
-      genre_ids
-    }) => ({
-      key: String(id),
-      title: original_title,
-      poster: getImagePath(poster_path),
-      backdrop: getBackdropPath(backdrop_path),
-      rating: vote_average,
-      description: overview,
-      releaseDate: release_date,
-      genres: genre_ids.map((genre) => genres[genre]),
-
-    })
-  );
-  // totalPages: fetchData.total_pages,
+  
+  const movies = {
+    page: fetchData.page,
+    totalPages: fetchData.total_pages,
+    data: fetchData.results.map(
+      ({
+        id,
+        original_title,
+        poster_path,
+        backdrop_path,
+        vote_average,
+        vote_count,
+        overview,
+        release_date,
+        genre_ids
+      }) => ({
+        key: String(id),
+        title: original_title,
+        posterPath: poster_path,
+        backdropPath: backdrop_path,
+        rating: vote_average,
+        voteCount: vote_count,
+        description: overview,
+        releaseDate: release_date,
+        genres: genre_ids.map((genre) => genres[genre]),
+  
+      })
+    )
+  }
 
   return movies;
 };
