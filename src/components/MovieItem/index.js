@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Image, Text } from 'react-native';
+import moment from 'moment'
+
 import fonts from '../../styles/fonts';
 import styles from './styles';
+import Rating from '../Rating';
 
 
 const Moviemovie = ({movie}) => {
@@ -11,24 +14,23 @@ const Moviemovie = ({movie}) => {
   `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
 
   return (
-    <View>
-            <Image
-              source={{ uri: getImagePath(movie.posterPath) }}
-              style={styles.posterImage}
-            />
-            <Text style={{ fontSize: 24, fontFamily: fonts.title }} numberOfLines={1}>
-              {movie.title}
-            </Text>
-            <Text style={{ fontSize: 12 }} numberOfLines={1}>
-              rating - {movie.rating}
-            </Text>
-            <Text style={{ fontSize: 12 }} numberOfLines={1}>
-              releaseDate - {movie.releaseDate}
-            </Text>
-            <Text style={{ fontSize: 12, fontFamily: fonts.text }} numberOfLines={3}>
-            voteCount - {movie.voteCount}
-            </Text>
-          </View>
+      <View style={styles.container}>
+      <Image
+        source={{ uri: getImagePath(movie.posterPath) }}
+        style={styles.posterImage}
+        resizeMode="contain"
+      />
+      <Text style={styles.movieTitle} numberOfLines={1}>
+        {movie.title}
+      </Text>
+      <Rating rating={ movie.rating } />
+      <Text style={styles.movieText} numberOfLines={1}>
+        Lançamento - {moment(movie.releaseDate).format('DD/MM/YY')}
+      </Text>
+      <Text style={styles.movieText} numberOfLines={1}>
+        Total de votos - {movie.voteCount}
+      </Text>
+    </View>
   );
 };
 
