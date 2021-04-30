@@ -1,9 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading'
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import {MoviesList} from './src/components';
+import Home from './src/views/Home'
 
 import {
   useFonts,
@@ -22,15 +19,8 @@ export default function App() {
     return <AppLoading />
   
   return (
-    <View style={styles.container}>
-      <StatusBar hidden />
-      <MoviesList />
-    </View>
+    <Home />
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+

@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, Dimensions } from 'react-native';
+import React from 'react';
+import { View, FlatList, Dimensions, Platform, TouchableOpacity } from 'react-native';
 import MovieItem from '../MovieItem';
-import { getMovies } from '../../services/api';
 
-const {width, height} = Dimensions.get('window')
 
-const MoviesList = () => {
+const {width, height} = Dimensions.get('window');
+const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 
-  const [movies, setMovies] = useState([]);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      const movies = await getMovies();
-      setMovies(movies.data);
-    };
+const MoviesList = (props) => {
 
-    fetchData();
 
-  }, []);
 
   return (
     <FlatList
     showsHorizontalScrollIndicator={false}
-    data={movies}
+    data={props.movies}
     keyExtractor={(item) => item.key}
     horizontal
+    snapToInterval={ITEM_SIZE}
+    snapToAlignment='start'
     contentContainerStyle={{ alignItems: 'center' }}
+    decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
+    bounces={false}
     renderItem={({ item, index }) => {
-
       return (
-        <View style={{ width: width }}>
-          <MovieItem movie={item}/>
-        </View>
+          <TouchableOpacity onPress={() => props.showMovieDetails(item.key)}>
+            <View style={{ width: ITEM_SIZE}}>
+                <MovieItem movie={item}/>
+            </View>
+          </TouchableOpacity>
       );
     }}
   />
