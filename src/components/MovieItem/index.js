@@ -5,6 +5,7 @@ import moment from 'moment'
 import fonts from '../../styles/fonts';
 import styles from './styles';
 import Rating from '../Rating';
+import Genres from '../Genre';
 
 
 const Moviemovie = ({movie}) => {
@@ -25,11 +26,12 @@ const Moviemovie = ({movie}) => {
       </Text>
       <Rating rating={ movie.rating } />
       <Text style={styles.movieText} numberOfLines={1}>
-        Lançamento - {moment(movie.releaseDate).format('DD/MM/YY')}
+        Release date - {moment(movie.releaseDate).format('MM/DD/YY')}
       </Text>
       <Text style={styles.movieText} numberOfLines={1}>
-        Total de votos - {movie.voteCount}
+        Total votes - {movie.voteCount}
       </Text>
+      <Genres genres={movie.genres}/>
     </View>
   );
 };
