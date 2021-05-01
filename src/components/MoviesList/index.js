@@ -47,7 +47,7 @@ const MoviesList = (props) => {
     <FlatList
     showsHorizontalScrollIndicator={false}
     data={movies}
-    keyExtractor={(item) => item.key}
+    keyExtractor={(item) => item.id}
     horizontal
     snapToInterval={ITEM_SIZE}
     snapToAlignment='start'
@@ -62,7 +62,7 @@ const MoviesList = (props) => {
     }}
     renderItem={({ item, index }) => {
       return (
-          <TouchableOpacity key={index}onPress={() => props.showMovieDetails(item.key)}>
+          <TouchableOpacity key={item.id} onPress={() => props.movieDetails(item.id)}>
             <View style={{ width: ITEM_SIZE}}>
                 <MovieItem movie={item}/>
             </View>
