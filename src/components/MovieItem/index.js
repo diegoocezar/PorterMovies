@@ -2,11 +2,8 @@ import React from 'react';
 import { View, Image, Text } from 'react-native';
 import moment from 'moment'
 
-import fonts from '../../styles/fonts';
 import styles from './styles';
 import Rating from '../Rating';
-import Genres from '../Genre';
-
 
 const Moviemovie = ({movie}) => {
 
@@ -26,7 +23,7 @@ const Moviemovie = ({movie}) => {
       </Text>
       <Rating rating={ movie.rating } />
       <Text style={styles.movieText} numberOfLines={1}>
-        Release date - {moment(movie.releaseDate).format('MM/DD/YY')}
+        Release date - {movie.releaseDate}
       </Text>
       <Text style={styles.movieText} numberOfLines={1}>
         Total votes - {movie.voteCount}
