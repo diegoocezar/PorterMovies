@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       const movies = await getMovies();
-      setMovies(movies.data);
+      setMovies(movies);
     };
 
     fetchData();
