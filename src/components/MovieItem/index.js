@@ -31,7 +31,6 @@ const Moviemovie = ({movie}) => {
       <Text style={styles.movieText} numberOfLines={1}>
         Total votes - {movie.voteCount}
       </Text>
-      <Genres genres={movie.genres}/>
     </View>
   );
 };
