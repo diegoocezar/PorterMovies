@@ -1,3 +1,5 @@
+import { mask } from '../helpers'
+
 const API_KEY = '7ff9651aec389cba32ebbfccc4cdebc4';
 const API_URL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`;
 const genres = {
@@ -29,7 +31,7 @@ const normalizedObject = (movies) => {
     data: movies.results.map(
     ({
       id,
-      original_title,
+      title,
       poster_path,
       backdrop_path,
       vote_average,
@@ -38,16 +40,37 @@ const normalizedObject = (movies) => {
       release_date,
       genre_ids
     }) => ({
-      key: String(id),
-      title: original_title,
+      id: String(id),
+      title: title,
       posterPath: poster_path,
       backdropPath: backdrop_path,
       rating: vote_average,
       voteCount: vote_count,
       description: overview,
-      releaseDate: release_date,
+      releaseDate: mask.date(release_date),
       genres: genre_ids.map((genre) => genres[genre]),
   }))}
+  return data
+};
+
+const normalizedDetailsObject = (movies) => {
+  const data = {
+      id: String(movies.id),
+      backdropPath: movies.backdrop_path,
+      budget: mask.money(movies.budget),
+      genres: movies.genres,
+      originalLanguage: movies.original_language,
+      title: movies.title,
+      description: movies.overview,
+      popularity: movies.popularity,
+      productionCompanies: movies.production_companies,
+      releaseDate: mask.date(movies.release_date),
+      revenue: mask.money(movies.revenue),
+      runtime: mask.time(movies.runtime),
+      tagline: movies.tagline,
+      rating: movies.vote_average,
+      voteCount: movies.vote_count,
+  }
   return data
 };
 
@@ -59,12 +82,20 @@ export const getMovies = async () => {
   return movies;
 };
 
-export const getMoreMovies = async ({page}) => {
-
+export const getMoreMovies = async (page) => {
   const fetchData = await fetch(`${API_URL}&page=${page}`).then((resp) => resp.json());
   const movies = normalizedObject(fetchData);
 
   return movies;
-  
-
 };
+
+export const getMovieDetails = async (id) => {
+  const DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
+
+  const fetchData = await fetch(DETAIL_URL).then((resp) => resp.json());
+
+  const movieDetails = normalizedDetailsObject(fetchData);
+
+  return movieDetails;
+
+}
