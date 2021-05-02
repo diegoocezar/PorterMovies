@@ -58,7 +58,7 @@ const normalizedDetailsObject = (movies) => {
       id: String(movies.id),
       backdropPath: movies.backdrop_path,
       budget: mask.money(movies.budget),
-      genres: movies.genres,
+      genres: movies.genres.map((genre) => genre.name),
       originalLanguage: movies.original_language,
       title: movies.title,
       description: movies.overview,
