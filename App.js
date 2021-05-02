@@ -1,12 +1,17 @@
 import AppLoading from 'expo-app-loading'
 import React from 'react';
 import Home from './src/views/Home'
+import Details from './src/views/Details';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import {
   useFonts,
   Jost_400Regular,
   Jost_600SemiBold
 } from '@expo-google-fonts/jost'
+
+const Stack = createStackNavigator();
 
 export default function App() {
   
@@ -19,7 +24,12 @@ export default function App() {
     return <AppLoading />
   
   return (
-    <Home />
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Details" component={Details}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

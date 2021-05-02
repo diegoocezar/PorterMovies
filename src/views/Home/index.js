@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { getMovies } from '../../services/api';
+import { getMovies, getMovieDetails } from '../../services/api';
 
 import {MoviesList} from './../../components'
 
-// import { Container } from './styles';
-
-const Home = () => {
+const Home = ({ navigation }) => {
 
   const [movies, setMovies] = useState([]);
-  const [movieDetails, setMovieDetails] = useState([]);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -22,14 +19,16 @@ const Home = () => {
 
   }, []);
 
-  const showMovieDetails = (id) => {
-    console.log('movie id ---> ', id);
+  const showMovieDetails = async (id) => {
+    const details = await getMovieDetails(id)
+
+    navigation.navigate('Details', {details: details})
   }
   
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <MoviesList movies={movies} showMovieDetails={(id) => showMovieDetails(id)}/>
+      <MoviesList movies={movies} movieDetails={(id) => showMovieDetails(id)}/>
     </View>
   );
 };
