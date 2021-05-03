@@ -7,27 +7,33 @@ const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(255,255,255,0.75)',
+    backgroundColor: 'white',
     marginHorizontal: spacing.small,
     padding:  spacing.medium ,
     alignItems: 'center',
     borderRadius: 25,
   }, 
   posterImage: {
-    width: '100%',
+    width: width,
     height: ITEM_SIZE * 1.2,
     borderRadius: 25,
     marginBottom: spacing.small,
   },
   movieTitle: { 
     alignItems: 'center',
-    fontSize: 24, 
+    fontSize: fonts.size.xLarge, 
     fontFamily: fonts.title 
   },
   movieText: {
-    fontSize: 14, 
+    fontSize: fonts.size.medium, 
     fontFamily: fonts.text, 
-    lineHeight: 24
+    lineHeight: fonts.size.xLarge
+  },
+  errorText: {
+    fontSize: fonts.size.large, 
+    fontFamily: fonts.title, 
+    lineHeight: fonts.size.xLarge,
+    textAlign: 'center'
   }
 });
 
