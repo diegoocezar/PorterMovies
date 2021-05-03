@@ -2,7 +2,6 @@ import {StyleSheet, Dimensions, Platform} from 'react-native'
 import spacing from '../../styles/spacings';
 import fonts from '../../styles/fonts';
 
-
 const {width, height} = Dimensions.get('window');
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 
@@ -26,24 +25,24 @@ const styles = StyleSheet.create({
     height: height * 0.3,
   },
   textsContainer: {
-    marginHorizontal: 10
+    marginHorizontal: spacing.small
   },
   movieTitle: { 
-    fontSize: 20, 
-    lineHeight: 38,
+    fontSize: fonts.size.large, 
     fontFamily: fonts.title,
     color: 'white',
+    lineHeight: 38,
     textAlign: 'center',
   },
   movieSubTitle: {
-    fontSize: 14, 
+    fontSize: fonts.size.small, 
     lineHeight: 26,
     fontFamily: fonts.title,
     color: 'white',
     textAlign: 'center',
   },
   movieDescription: {
-    fontSize: 14, 
+    fontSize: fonts.size.medium, 
     fontFamily: fonts.text, 
     lineHeight: 24,
     color: 'white',
@@ -51,16 +50,17 @@ const styles = StyleSheet.create({
     marginBottom: spacing.medium,
   },
   movieText: {
-    fontSize: 16, 
+    fontSize: fonts.size.medium, 
     fontFamily: fonts.title, 
-    lineHeight: 24,
+    lineHeight: fonts.size.xLarge,
     color: 'white',
+    textAlign: 'justify',
     marginBottom: spacing.medium,
   },
   votesCountText: {
-    fontSize: 14, 
+    fontSize: fonts.size.small, 
     fontFamily: fonts.text, 
-    lineHeight: 24,
+    lineHeight: fonts.size.xLarge,
     color: 'white',
     textAlign: 'center'
   },
@@ -75,9 +75,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   companieNameText: {
-    fontSize: 14, 
+    fontSize: fonts.size.small, 
     fontFamily: fonts.title, 
-    lineHeight: 24,
+    lineHeight: fonts.size.xLarge,
     color: 'white',
     marginBottom: spacing.small,
   },

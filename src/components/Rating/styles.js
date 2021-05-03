@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   ratingNumber: { 
     marginRight: 4, 
-    fontSize: 14, 
+    fontSize: fonts.size.medium, 
     fontFamily: fonts.text, 
   }
 });
