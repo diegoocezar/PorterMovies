@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import Modal from 'react-native-modal';
 import { getMovies, getMovieDetails } from '../../services/api';
 
 import {MoviesList} from './../../components'
@@ -8,22 +9,21 @@ import styles from './styles';
 
 const Home = ({ navigation }) => {
 
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState({});
   const [hasError, setHasError] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const fetchData = async () => {
     try {
       const movies =   await getMovies();
-      setMovies(movies);
-
+      movies.data === 'error' ? setHasError(true) : setMovies(movies);
     } catch (error) {
       setHasError(true);
     } ;
   };
   
   useEffect(() => {
-    
 
     fetchData();
 
@@ -36,10 +36,13 @@ const Home = ({ navigation }) => {
 
   };
 
-  const showMovieDetails = async (id) => {
-    const details = await getMovieDetails(id)
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
-    navigation.navigate('Details', {details: details})
+  const showMovieDetails = async (id) => {
+    const details = await getMovieDetails(id);
+    details.data === 'error' ? toggleModal() : navigation.navigate('Details', {details: details});
   }
   
   return (
@@ -53,6 +56,15 @@ const Home = ({ navigation }) => {
         </View>
       </View>
       <MoviesList movies={movies} error={hasError} refresh={refresh} onRefreshMoviesList={() => onRefreshMoviesList()} movieDetails={(id) => showMovieDetails(id)}/>
+        <Modal isVisible={isModalVisible} animationOutTiming={1500} useNativeDriver={true} style={styles.modal}>
+          <View style={styles.modalContentContainer}>
+            <Text style={styles.modalErrorText}>Could not get movie's details, check your internet connection and try again later!</Text>
+
+            <TouchableOpacity style={styles.modalErrorButton} onPress={toggleModal} >
+              <Text style={styles.modalErrorButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
     </View>
   );
 };
