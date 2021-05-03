@@ -7,21 +7,94 @@ const {width, height} = Dimensions.get('window');
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'black'
+  },
+  header: {
+    backgroundColor: 'rgba(0,0,0,0.88)',
+  },
+  backButton: {
+    width: 45,
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 5,
+    marginVertical: spacing.small,
+  },
   posterImage: {
-    width: '100%',
-    height: ITEM_SIZE * 1.2,
-    borderRadius: 25,
-    marginBottom: spacing.small,
+    width: width,
+    height: height * 0.3,
+  },
+  textsContainer: {
+    marginHorizontal: 10
   },
   movieTitle: { 
-    alignItems: 'center',
-    fontSize: 32, 
-    fontFamily: fonts.title 
+    fontSize: 20, 
+    lineHeight: 38,
+    fontFamily: fonts.title,
+    color: 'white',
+    textAlign: 'center',
   },
-  movieText: {
+  movieSubTitle: {
+    fontSize: 14, 
+    lineHeight: 26,
+    fontFamily: fonts.title,
+    color: 'white',
+    textAlign: 'center',
+  },
+  movieDescription: {
     fontSize: 14, 
     fontFamily: fonts.text, 
-    lineHeight: 24
+    lineHeight: 24,
+    color: 'white',
+    textAlign: 'justify',
+    marginBottom: spacing.medium,
+  },
+  movieText: {
+    fontSize: 16, 
+    fontFamily: fonts.title, 
+    lineHeight: 24,
+    color: 'white',
+    marginBottom: spacing.medium,
+  },
+  votesCountText: {
+    fontSize: 14, 
+    fontFamily: fonts.text, 
+    lineHeight: 24,
+    color: 'white',
+    textAlign: 'center'
+  },
+  companiesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+
+  },
+  companiesCard: {
+    width: width * 0.4,
+    marginHorizontal: 5,
+    alignItems: 'center'
+  },
+  companieNameText: {
+    fontSize: 14, 
+    fontFamily: fonts.title, 
+    lineHeight: 24,
+    color: 'white',
+    marginBottom: spacing.small,
+  },
+  companieImageContainer: {
+    width: width * 0.3,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    justifyContent: "center",
+    height: width * 0.2,
+    marginBottom: spacing.medium,
+  },
+  companieImage: {
+    height: width * 0.2,
+  },
+  companieWithoutImage: {
+    color: '#000',
+    textAlign: "center",
   }
 })
 
