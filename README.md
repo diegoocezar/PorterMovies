@@ -3,7 +3,7 @@
   Porter Movies
 </h1>
 
-<h4 align="center">Aplicação mobile desenvolvida para listagens de filmes utilizando os filmes encontrados no "The Movie Database</h4>
+<h4 align="center">Aplicação mobile desenvolvida para listagens de filmes utilizando os filmes encontrados no "The Movie Database"</h4>
 
 <p align="center">
   <a href="#como-executar">Como executar</a> •
