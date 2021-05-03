@@ -13,9 +13,6 @@ const Header = ({details, navigation}) => {
           <Ionicons name="arrow-back" size={32} color="white"/>
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.titleContainer}>
-        
-      </View> */}
     </View>
   )
 }
@@ -52,7 +49,7 @@ const Details = ({route, navigation}) => {
           <Text style={styles.movieText} >Budget: {details.budget}</Text>
           <Text style={styles.movieText} >Revenue: {details.revenue}</Text>
           <Text style={styles.movieText} >Popularity: {details.popularity}</Text>
-          <Text  style={styles.movieText}>Production {details.productionCompanies.length > 1 ? 'companies' : 'companie'}:</Text>
+          <Text style={styles.movieText}>Production {details.productionCompanies.length > 1 ? 'companies' : 'companie'}:</Text>
             
             <View style={styles.companiesContainer}>
               {details.productionCompanies.map(companie =>
