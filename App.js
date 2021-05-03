@@ -8,7 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {
   useFonts,
   Jost_400Regular,
-  Jost_600SemiBold
+  Jost_600SemiBold,
+  Jost_900Black,
 } from '@expo-google-fonts/jost'
 
 const Stack = createStackNavigator();
@@ -17,7 +18,8 @@ export default function App() {
   
   const [ fontsLoaded ] = useFonts({
     Jost_400Regular,
-    Jost_600SemiBold
+    Jost_600SemiBold,
+    Jost_900Black
   });
 
   if(!fontsLoaded) 
