@@ -80,21 +80,31 @@ export const getMovies = async () => {
     await fetch(API_URL)
       .then((resp) => { 
         if(!resp.ok) {
-          throw Error(resp.status + ' - could not fetch the data!')
+          throw Error(resp.status)
         }
         return resp.json()
       }).catch(err => {
         console.log(err.message)
         return err
-      })
-  const movies = normalizedObject(fetchData);
+      });
+
+  const movies = fetchData.results ? normalizedObject(fetchData) : {data: "error"}
 
   return movies;
 };
 
 export const getMoreMovies = async (page) => {
-  const fetchData = await fetch(`${API_URL}&page=${page}`).then((resp) => resp.json());
-  const movies = normalizedObject(fetchData);
+  const fetchData = await fetch(`${API_URL}&page=${page}`).then((resp) => { 
+    if(!resp.ok) {
+        throw Error(resp.status)
+      }
+      return resp.json()
+    }).catch(err => {
+      console.log(err.message)
+      return err
+    });
+  
+  const movies = fetchData.results ? normalizedObject(fetchData) : {data: "error"}
 
   return movies;
 };
@@ -102,9 +112,18 @@ export const getMoreMovies = async (page) => {
 export const getMovieDetails = async (id) => {
   const DETAIL_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
 
-  const fetchData = await fetch(DETAIL_URL).then((resp) => resp.json());
+  const fetchData = await fetch(DETAIL_URL).then((resp) => { 
+      if(!resp.ok) {
+        throw Error(resp.status)
+      }
+      return resp.json()
+    }).catch(err => {
+      console.log(err.message)
+      return err
+  });
 
-  const movieDetails = normalizedDetailsObject(fetchData);
+  const movieDetails = fetchData.title ? normalizedDetailsObject(fetchData) : {data: "error"}
+
 
   return movieDetails;
 
