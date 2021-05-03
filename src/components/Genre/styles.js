@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginVertical: 4,
+    marginVertical: 8,
   },
   genre:{
     paddingVertical: 2,
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
   genreText:{
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: fonts.text,
   },
 })
