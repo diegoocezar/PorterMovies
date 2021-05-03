@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Dimensions, Platform, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, FlatList, Dimensions, Platform, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
 import MovieItem from '../MovieItem';
 import {getMoreMovies} from '../../services/api';
 
@@ -12,7 +12,6 @@ const MoviesList = (props) => {
   const [isLoadingNextPage, setIsLoadingNextpage] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-
 
   useEffect(() => {
     setMovies(props.movies.data)
@@ -44,39 +43,57 @@ const MoviesList = (props) => {
   }
 
   return (
-    <FlatList
-    showsHorizontalScrollIndicator={false}
-    data={movies}
-    keyExtractor={(item) => item.id}
-    horizontal
-    snapToInterval={ITEM_SIZE}
-    snapToAlignment='start'
-    contentContainerStyle={{ alignItems: 'center' }}
-    decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
-    bounces={false}
-    onEndReachedThreshold={0.5}
-    onEndReached={async () => {
-      if (!isLoadingNextPage) {
-          await getNextMoviesPage();
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        data={movies}
+        keyExtractor={(item) => item.id}
+        horizontal
+        snapToInterval={ITEM_SIZE}
+        snapToAlignment='start'
+        contentContainerStyle={{ alignItems: 'center' }}
+        decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
+        bounces={false}
+        onEndReachedThreshold={1}
+        onEndReached={async () => {
+          if (!isLoadingNextPage) {
+              await getNextMoviesPage();
+          }
+        }}
+        renderItem={({ item, index }) => {
+          return (
+              <TouchableOpacity key={item.id} onPress={() => props.movieDetails(item.id)}>
+                <View style={{ width: ITEM_SIZE}}>
+                    <MovieItem movie={item}/>
+                </View>
+              </TouchableOpacity>
+          );
+        }}
+        refreshControl={
+          <RefreshControl
+              colors={["black"]}
+              refreshing={props.refresh}
+              onRefresh={async () => await props.onRefreshMoviesList()}
+          />
       }
-    }}
-    renderItem={({ item, index }) => {
-      return (
-          <TouchableOpacity key={item.id} onPress={() => props.movieDetails(item.id)}>
-            <View style={{ width: ITEM_SIZE}}>
-                <MovieItem movie={item}/>
+        ListFooterComponent={() => {
+          if (isLoadingNextPage) {
+              return <ActivityIndicator size="large" color={"white"} />;
+          } else {
+            return null;
+          }
+        }}
+        ListEmptyComponent={() => {
+          if(props.error){
+           return (
+            <View style={{ width: ITEM_SIZE, marginLeft: ITEM_SIZE * 0.2}}>
+              <MovieItem error={props.error}/>
             </View>
-          </TouchableOpacity>
-      );
-    }}
-    ListFooterComponent={() => {
-      if (isLoadingNextPage) {
-          return <ActivityIndicator size="large" color={"white"} />;
-      } else {
-        return null;
-      }
-    }}
-  />
+           )
+          } else {
+            return null
+          }
+        }}
+      />
   );
 }
 
