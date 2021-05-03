@@ -76,7 +76,17 @@ const normalizedDetailsObject = (movies) => {
 
 export const getMovies = async () => {
 
-  const fetchData = await fetch(API_URL).then((resp) => resp.json());
+  const fetchData = 
+    await fetch(API_URL)
+      .then((resp) => { 
+        if(!resp.ok) {
+          throw Error(resp.status + ' - could not fetch the data!')
+        }
+        return resp.json()
+      }).catch(err => {
+        console.log(err.message)
+        return err
+      })
   const movies = normalizedObject(fetchData);
 
   return movies;
