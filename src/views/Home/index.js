@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import Modal from 'react-native-modal';
 import { getMovies, getMovieDetails } from '../../services/api';
 
+import ErroModal from '../../components/Modal';
 import {MoviesList} from './../../components'
 import styles from './styles';
 
@@ -56,15 +56,7 @@ const Home = ({ navigation }) => {
         </View>
       </View>
       <MoviesList movies={movies} error={hasError} refresh={refresh} onRefreshMoviesList={() => onRefreshMoviesList()} movieDetails={(id) => showMovieDetails(id)}/>
-        <Modal isVisible={isModalVisible} animationOutTiming={1500} useNativeDriver={true} style={styles.modal}>
-          <View style={styles.modalContentContainer}>
-            <Text style={styles.modalErrorText}>Could not get movie's details, check your internet connection and try again later!</Text>
-
-            <TouchableOpacity style={styles.modalErrorButton} onPress={toggleModal} >
-              <Text style={styles.modalErrorButtonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
+      <ErroModal isVisible={isModalVisible} toggleModal={() => toggleModal()}/>  
     </View>
   );
 };
