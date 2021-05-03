@@ -3,6 +3,8 @@ import { View, FlatList, Dimensions, Platform, TouchableOpacity, ActivityIndicat
 import MovieItem from '../MovieItem';
 import {getMoreMovies} from '../../services/api';
 
+import ErroModal from '../Modal';
+
 
 const {width, height} = Dimensions.get('window');
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
@@ -12,6 +14,7 @@ const MoviesList = (props) => {
   const [isLoadingNextPage, setIsLoadingNextpage] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     setMovies(props.movies.data)
@@ -27,22 +30,34 @@ const MoviesList = (props) => {
     if(isLoadingNextPage || nextPage > totalPages) {
       return;
     }
-    
+   
     const getData = async () => {
       setIsLoadingNextpage(true)
       const prevMovies = movies;
-      const newMovies = await getMoreMovies(nextPage)
-      setMovies([...prevMovies, ...newMovies.data])
-      
-      setCurrentPage(newMovies.page)
+      try {
+        const newMovies = await getMoreMovies(nextPage)
+        if(newMovies.data === 'error') {
+          setIsModalVisible(true)
+          setIsLoadingNextpage(false)
+        } else { 
+          setMovies([...prevMovies, ...newMovies.data]) 
+          setCurrentPage(newMovies.page)}
+  
+      } catch (error) {
+        setIsModalVisible(true);
+      } ;
     }
 
     await getData();
     setIsLoadingNextpage(false)
-
   }
 
+  const toggleModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
+    <>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={movies}
@@ -53,9 +68,9 @@ const MoviesList = (props) => {
         contentContainerStyle={{ alignItems: 'center' }}
         decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
         bounces={false}
-        onEndReachedThreshold={1}
+        onEndReachedThreshold={0.5}
         onEndReached={async () => {
-          if (!isLoadingNextPage) {
+          if (!isLoadingNextPage && !isModalVisible) {
               await getNextMoviesPage();
           }
         }}
@@ -94,6 +109,8 @@ const MoviesList = (props) => {
           }
         }}
       />
+      <ErroModal isVisible={isModalVisible} toggleModal={() => toggleModal()}/> 
+    </>
   );
 }
 
